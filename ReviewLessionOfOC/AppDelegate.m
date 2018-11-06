@@ -11,7 +11,19 @@
 @interface AppDelegate ()
 - (IBAction)Btn_StrongVsCopy:(NSButton *)sender;
 - (IBAction)Btn_Block:(NSButton *)sender;
+- (IBAction)Btn_BlockDefine:(NSButton *)sender;
+- (IBAction)Btn_BlockAsParamter:(NSButton *)sender;
+- (IBAction)Btn_BlockAsResult:(NSButton *)sender;
+
+
+
+
+
 - (IBAction)Btn_Thread死锁:(NSButton *)sender;
+- (IBAction)Btn_WriteLog:(NSButton *)sender;
+- (IBAction)Btn_DispatchQueueApply:(NSButton *)sender;
+- (IBAction)Btn_DispatchQueueBarrier:(NSButton *)sender;
+
 
 @property (weak) IBOutlet NSWindow *window;
 @end
@@ -57,32 +69,44 @@
 }
 
 - (IBAction)Btn_Block:(NSButton *)sender {
-//    blockDemo.myBlock1 = ^{NSLog(@"Btn-This is myBlock1");};
-//    blockDemo.myBlock1();
-//
-//    [blockDemo viewDidLoad];
-//
+    blockDemo.myBlock1 = ^{NSLog(@"Btn-This is myBlock1");};
+    blockDemo.myBlock1();
+}
+
+- (IBAction)Btn_BlockDefine:(NSButton *)sender {
     [blockDemo definedBlock];
-    
+}
+
+- (IBAction)Btn_BlockAsParamter:(NSButton *)sender {
     [blockDemo asParameterBlock];
-    
+}
+
+- (IBAction)Btn_BlockAsResult:(NSButton *)sender {
     [blockDemo asFunctionResult];
 }
 
 - (IBAction)Btn_Thread死锁:(NSButton *)sender {
     [[Thread new] DeadLock];
-    
 }
 - (IBAction)Btn_usualBlock:(NSButton *)sender {
     //测试Block的执行顺序
     [blockDemo usualBlock];
 }
 
-- (IBAction)Btn_SequenceBlock:(NSButton *)sender {
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+- (IBAction)Btn_SequenceBlock:(NSButton *)sender { dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self->blockDemo blockSequenceRun];
     });
 
+}
+- (IBAction)Btn_WriteLog:(NSButton *)sender {
+    [[Thread new] writeLog];
+}
+
+- (IBAction)Btn_DispatchQueueApply:(NSButton *)sender {
+    [[Thread new] dispatchQueueApply];
+}
+
+- (IBAction)Btn_DispatchQueueBarrier:(NSButton *)sender {
+    [[Thread new] DownloadFilesWithGCD];
 }
 @end

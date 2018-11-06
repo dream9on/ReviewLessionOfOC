@@ -1,5 +1,5 @@
 //
-//  Thread.h
+//  TxtLog.h
 //  ReviewLessionOfOC
 //
 //  Created by Dylan Xiao on 2018/11/6.
@@ -7,18 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TxtLog.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Thread : NSObject
+@interface TxtLog : NSObject
 
++(void)WriteLog:(NSString*)path Content:(NSString*)content queue:(dispatch_queue_t)q;
 
--(void)DeadLock;
--(void)writeLog;
-
--(void)dispatchQueueApply;
--(void)DownloadFilesWithGCD;
 @end
 
 NS_ASSUME_NONNULL_END

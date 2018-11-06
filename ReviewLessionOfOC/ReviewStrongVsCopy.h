@@ -7,7 +7,6 @@
 //
 
 
-
 /*
  @property是一个属性访问声明，扩号内支持以下几个属性：
  1，getter=getterName，setter=setterName，设置setter与getter的方法名

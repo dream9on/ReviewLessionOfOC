@@ -22,12 +22,12 @@
 @implementation BlockDemo
 
 
-#pragma mark - 定义Block的几种形式
+#pragma mark - 1.定义Block几种形式   ^返回值类型 (参数列表) 表达式
 //1. 定义Block的方式：  returnType (^blockName)(parameterTypes) = ^returnType(parameters) {...};
 -(void)definedBlock
 {
     //1.1 无参数无返回值的Block
-    void (^block1)(void)=^(){
+    void (^block1)(void)=^(){ // 括号可省略  「^{」
         NSLog(@"Hello,block1:这是一个无参数无返回值的Block.");
     };
     
@@ -49,7 +49,7 @@
     block2(30,@"Jack");
     
     //1.3 无参数有返回值的Block
-    int (^block3)(void) =^(){
+    int (^block3)(void) =^int{
         NSLog(@"Hello,block3:这是一个无参数有返回值的Block,返回值为int类型");
         return 5;
     };
@@ -73,7 +73,9 @@
 }
 
 
-#pragma mark - 作为参数使用的Block
+
+
+#pragma mark - 2.作为参数使用的Block
 
 /**
  调用作为参数的Block方法
@@ -160,7 +162,10 @@
 }
 
 
-#pragma mark - 作为返回值调用的Block
+
+
+
+#pragma mark - 3.作为返回值调用的Block
 -(void)asFunctionResult
 {
     int age =15;
@@ -235,10 +240,13 @@
 
 
 
-#pragma mark - 让Blockn按顺序执行
+
+
+#pragma mark - Block 信号量的使用
+
 
 /**
- 最普通的用法，Block会在线程中顺序执行，而外部会顺序执行
+ 最普通的用法，Block会在线程中顺序执行，外部也会顺序执行
  */
 -(void)usualBlock
 {
@@ -258,8 +266,9 @@
     2018-11-06 12:00:26.845914+0800 ReviewLessionOfOC[15821:2062577] Method: -[BlockDemo blockParameter1:]
     2018-11-06 12:00:27.849197+0800 ReviewLessionOfOC[15821:2062577] 1.block1 run.
      */
-    
 }
+
+
 
 
 
@@ -300,8 +309,6 @@
     2018-11-06 13:21:56.266913+0800 ReviewLessionOfOC[16006:2093748] num= 3
     2018-11-06 13:21:56.267050+0800 ReviewLessionOfOC[16006:2094595] 2.usualBlock
     */
-    
-    
 }
 
 
@@ -317,116 +324,6 @@
 
 
 
-
-#pragma mark - 参考案例
-
-
-
-
-
-- (void)viewDidLoad
-{
-    //#pragma mark 作为参数
-    [self setupNav1:^{
-        NSLog(@"%s", __func__);
-    }];
-    
-    [self setupNav2:^int{
-        return 3;
-    }];
-    
-    [self setupNav3:^(int a, int b) {
-        NSLog(@"%d", a + b);
-    }];
-    
-    [self setupNav4:^int(int a, int b) {
-        return a + b;
-    }];
-    
-    //#pragma mark 作为返回值调用
-    [self setupTab1]();
-    [self setupTab2]();
-    [self setupTab3](1, 3);
-    [self setupTab4](1, 3);
-}
-
-#pragma mark - block作为参数
-
-/**
- * 没有返回值,没有参数的block作为参数
- */
-- (void)setupNav1:(void(^)(void))myBlock11
-{
-    myBlock11();
-}
-/**
- * 没有返回值,没有参数的block作为参数
- */
-- (void)setupNav2:(int(^)(void))myBlock12
-{
-    NSLog(@"myblock12  return = %d",myBlock12());
-}
-/**
- * 没有返回值,有参数的block作为参数
- */
-- (void)setupNav3:(void(^)(int x, int y))myBlock13
-{
-    myBlock13(3, 5);
-}
-/**
- * 没有返回值,有参数的block作为参数
- */
-- (void)setupNav4:(int(^)(int, int))myBlock14
-{
-    myBlock14(3, 5);
-}
-
-#pragma mark - blcok作为返回值
-/**
- * 没有返回值,没有参数的block作为返回值
- */
-- (void(^)(void))setupTab1
-{
-    void(^block)(void) = ^{
-        NSLog(@"setupNav1");
-    };
-    return block;
-}
-/**
- * 有返回值,没有参数的block作为返回值
- */
-- (int(^)(void))setupTab2
-{
-    int(^block)(void) = ^{
-        NSLog(@"setupNav1");
-        return 3;
-    };
-    return block;
-}
-/**
- * 没有返回值,有参数的block作为返回值
- */
-- (void(^)(int, int))setupTab3
-{
-    void(^block)(int, int) = ^(int a, int b){
-        int c = a + b;
-        NSLog(@"%d", c);
-        
-    };
-    return block;
-}
-/**
- * 有返回值,有参数的block作为返回值
- */
-- (int(^)(int, int))setupTab4
-{
-    int(^block)(int, int) = ^(int a, int b){
-        int c = a + b;
-        NSLog(@"%d", c);
-        return c;
-    };
-    return block;
-}
 
 
 

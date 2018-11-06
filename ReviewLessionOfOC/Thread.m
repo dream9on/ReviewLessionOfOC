@@ -12,10 +12,12 @@
 
 
 
+#pragma mark - Dispatch GCD
+
 //死锁
 -(void)DeadLock
 {
-    //如果queue是一个串行队列的话，这段代码立即产生死锁：
+    //如果queue是一个串行队列的话，这段代码立即产生死锁： 不建议使用同步嵌套sync
     dispatch_queue_t queue = dispatch_queue_create("com.dispatch.deadlock", DISPATCH_QUEUE_SERIAL);
     
     dispatch_sync(queue, ^{
@@ -26,6 +28,119 @@
     });
     
 }
+
+
+
+/**
+ 写文件类:
+ 如果多个线程向同一个文件中写文件：必须使用一个队列queue,而且是DISPATCH_QUEUE_SERIAL(串行),数据不会丢失且完整。
+ 如果使用 DISPATCH_QUEUE_CONCURRENT(并发)会丢失数据
+ 
+ 下面的例子是 2个线程同时向同一个文件写log,第3个线程等待上面2个线程写完后，最后再写一个完成.
+ 要求：不可以丢失数据，线程3写入的数据一定是在最后
+ */
+-(void)writeLog
+{
+    // 1.创建一个文件的写入串行队列   【如果用DISPATCH_QUEUE_CONCURRENT 会丢失数据】
+    dispatch_queue_t logQueue = dispatch_queue_create("com.dispatch.logQueue", DISPATCH_QUEUE_SERIAL);
+    
+    // 2.创建一个并行队列 执行GCD1.GCD2 写入文件 【如果用DISPATCH_QUEUE_SERIAL 会成为单线程顺序，无意义】
+    dispatch_queue_t globalQueue =dispatch_queue_create("com.dispatch.GCD", DISPATCH_QUEUE_CONCURRENT);
+    NSString *logpath = @"/vault/log.txt";
+    
+    // 3.GCD1 写Log
+    dispatch_async(globalQueue, ^{
+        int x = 0;
+        while (x<5) {
+            NSString *data = [NSString stringWithFormat:@"GCD1 %d_Time: %@",++x,[NSDate date]];
+            NSLog(@"GCD1 Writelog: %d.",x);
+            [TxtLog WriteLog:logpath Content:data queue:logQueue];
+            sleep(1);
+        }
+    });
+    
+    // 4.GCD2 写Log
+    dispatch_async(globalQueue, ^{
+        int x = 0;
+        while (x<5) {
+            NSString *data = [NSString stringWithFormat:@"GCD2 %d_Time: %@",++x,[NSDate date]];
+            NSLog(@"GCD2 Writelog: %d.",x);
+            [TxtLog WriteLog:logpath Content:data queue:logQueue];
+            sleep(1);
+        }
+    });
+    
+    // 等待DISPATCH_QUEUE_CONCURRENT 队列【GCD1,GCD2】完成后再执行
+    dispatch_barrier_async(globalQueue, ^{
+        NSLog(@"write complete.");
+        [TxtLog WriteLog:logpath Content:@"Write complete." queue:logQueue];
+    });
+    
+    /*  正确的log格式
+    GCD1 1_Time: 2018-11-06 09:09:16 +0000
+    GCD2 1_Time: 2018-11-06 09:09:16 +0000
+    GCD1 2_Time: 2018-11-06 09:09:17 +0000
+    GCD2 2_Time: 2018-11-06 09:09:17 +0000
+    GCD1 3_Time: 2018-11-06 09:09:18 +0000
+    GCD2 3_Time: 2018-11-06 09:09:18 +0000
+    GCD1 4_Time: 2018-11-06 09:09:19 +0000
+    GCD2 4_Time: 2018-11-06 09:09:19 +0000
+    GCD1 5_Time: 2018-11-06 09:09:20 +0000
+    GCD2 5_Time: 2018-11-06 09:09:20 +0000
+    Write complete.
+    */
+    
+    /* 错误的log格式
+     如果使用DISPATCH_QUEUE_CONCURRENT  会丢失数据
+    GCD1 1_Time: 2018-11-06 08:47:27 +0000
+    GCD2 2_Time: 2018-11-06 08:47:28 +0000
+    GCD1 2_Time: 2018-11-06 08:47:28 +0000
+    GCD1 3_Time: 2018-11-06 08:47:29 +0000
+    GCD1 4_Time: 2018-11-06 08:47:30 +0000
+    GCD2 5_Time: 2018-11-06 08:47:31 +0000
+    CD1 5_Time: 2018-11-06 08:47:31 +0000
+     
+    GCD2 1_Time: 2018-11-06 08:48:00 +0000
+    GCD1 2_Time: 2018-11-06 08:48:01 +0000
+    GCD2 3_Time: 2018-11-06 08:48:02 +0000
+    GCD2 4_Time: 2018-11-06 08:48:03 +0000
+    GCD2 5_Time: 2018-11-06 08:48:04 +0000
+     */
+    
+}
+
+
+
+-(void)dispatchQueueApply
+{
+    //void dispatch_apply(size_t iterations, dispatch_queue_t queue, void (^block)(size_t));
+    //重复执行block，需要注意的是这个方法是同步返回，也就是说等到所有block执行完毕才返回，如需异步返回则嵌套在dispatch_async中来使用。多个block的运行是否并发或串行执行也依赖queue的是否并发或串行。
+    
+    dispatch_queue_t queue = dispatch_queue_create("com.Dispatch.Apply", DISPATCH_QUEUE_CONCURRENT);
+    
+    // 多次执行block --10次
+    dispatch_apply(10, queue, ^(size_t index) {
+        NSLog(@"Apply index=%ld",index);
+    });
+    
+    NSLog(@"Well done.");
+    
+    /*
+    2018-11-06 19:46:27.842695+0800 ReviewLessionOfOC[18472:2423251] Apply index=1
+    2018-11-06 19:46:27.842687+0800 ReviewLessionOfOC[18472:2423215] Apply index=0
+    2018-11-06 19:46:27.842719+0800 ReviewLessionOfOC[18472:2423241] Apply index=2
+    2018-11-06 19:46:27.842727+0800 ReviewLessionOfOC[18472:2423243] Apply index=3
+    2018-11-06 19:46:27.842727+0800 ReviewLessionOfOC[18472:2423215] Apply index=5
+    2018-11-06 19:46:27.842727+0800 ReviewLessionOfOC[18472:2423251] Apply index=4
+    2018-11-06 19:46:27.842742+0800 ReviewLessionOfOC[18472:2423241] Apply index=6
+    2018-11-06 19:46:27.842742+0800 ReviewLessionOfOC[18472:2423243] Apply index=7
+    2018-11-06 19:46:27.842743+0800 ReviewLessionOfOC[18472:2423215] Apply index=9
+    2018-11-06 19:46:27.842743+0800 ReviewLessionOfOC[18472:2423251] Apply index=8
+    2018-11-06 19:46:27.842760+0800 ReviewLessionOfOC[18472:2423215] Well done.
+    */
+}
+
+
 
 //#多线程 设定执行顺序
 
@@ -69,6 +184,11 @@
         NSLog(@"gcd任务5");
         sleep(3);
     });
+    
+    
+    
+    
+
     
     /*
      Dispatch Queues的生成可以有这几种方式：
@@ -119,32 +239,32 @@
      dispatch队列是线程安全的，可以利用串行队列实现锁的功能。比如多线程写同一数据库，需要保持写入的顺序和每次写入的完整性，简单地利用串行队列即可实现：
      dispatch_queue_t queue1 = dispatch_queue_create("com.dispatch.writedb", DISPATCH_QUEUE_SERIAL);
      
-          - (void)writeDB:(NSData *)data
-          {
-          　　dispatch_async(queue1, ^{
-          　　　　//write database
-          　　});
-          }
-     
-          下一次调用writeDB:必须等到上次调用完成后才能进行，保证writeDB:方法是线程安全的。
-     
-          dispatch队列还实现其它一些常用函数，包括：
-          void dispatch_apply(size_t iterations, dispatch_queue_t queue, void (^block)(size_t)); //重复执行block，需要注意的是这个方法是同步返回，也就是说等到所有block执行完毕才返回，如需异步返回则嵌套在dispatch_async中来使用。多个block的运行是否并发或串行执行也依赖queue的是否并发或串行。
-     
-          void dispatch_barrier_async(dispatch_queue_t queue, dispatch_block_t block); //这个函数可以设置同步执行的block，它会等到在它加入队列之前的block执行完毕后，才开始执行。在它之后加入队列的block，则等到这个block执行完毕后才开始执行。
-     
-          void dispatch_barrier_sync(dispatch_queue_t queue, dispatch_block_t block); //同上，除了它是同步返回函数
-     
-          void dispatch_after(dispatch_time_t when, dispatch_queue_t queue, dispatch_block_t block); //延迟执行block
-     
-          最后再来看看dispatch队列的一个很有特色的函数：
-          void dispatch_set_target_queue(dispatch_object_t object, dispatch_queue_t queue);
-          它会把需要执行的任务对象指定到不同的队列中去处理，这个任务对象可以是dispatch队列，也可以是dispatch源（以后博文会介绍）。而且这个过程可以是动态的，可以实现队列的动态调度管理等等。比如说有两个队列dispatchA和dispatchB，这时把dispatchA指派到dispatchB：
-          dispatch_set_target_queue(dispatchA, dispatchB);
-          那么dispatchA上还未运行的block会在dispatchB上运行。这时如果暂停dispatchA运行：
-          dispatch_suspend(dispatchA);
-          则只会暂停dispatchA上原来的block的执行，dispatchB的block则不受影响。而如果暂停dispatchB的运行，则会暂停dispatchA的运行。
-          */
+      - (void)writeDB:(NSData *)data
+      {
+      　　dispatch_async(queue1, ^{
+      　　　　//write database
+      　　});
+      }
+      下一次调用writeDB:必须等到上次调用完成后才能进行，保证writeDB:方法是线程安全的。
+ 
+      dispatch队列还实现其它一些常用函数，包括：
+      void dispatch_apply(size_t iterations, dispatch_queue_t queue, void (^block)(size_t)); //重复执行block，需要注意的是这个方法是同步返回，也就是说等到所有block执行完毕才返回，如需异步返回则嵌套在dispatch_async中来使用。多个block的运行是否并发或串行执行也依赖queue的是否并发或串行。
+ 
+      void dispatch_barrier_async(dispatch_queue_t queue, dispatch_block_t block); //这个函数可以设置同步执行的block，它会等到在它加入队列之前的block执行完毕后，才开始执行。在它之后加入队列的block，则等到这个block执行完毕后才开始执行。
+ 
+      void dispatch_barrier_sync(dispatch_queue_t queue, dispatch_block_t block); //同上，除了它是同步返回函数
+ 
+      void dispatch_after(dispatch_time_t when, dispatch_queue_t queue, dispatch_block_t block); //延迟执行block
+ 
+      最后再来看看dispatch队列的一个很有特色的函数：
+      void dispatch_set_target_queue(dispatch_object_t object, dispatch_queue_t queue);
+      它会把需要执行的任务对象指定到不同的队列中去处理，这个任务对象可以是dispatch队列，也可以是dispatch源（以后博文会介绍）。而且这个过程可以是动态的，可以实现队列的动态调度管理等等.
+     比如说有两个队列dispatchA和dispatchB，这时把dispatchA指派到dispatchB：
+      dispatch_set_target_queue(dispatchA, dispatchB);
+      那么dispatchA上还未运行的block会在dispatchB上运行。这时如果暂停dispatchA运行：
+      dispatch_suspend(dispatchA);
+      则只会暂停dispatchA上原来的block的执行，dispatchB的block则不受影响。而如果暂停dispatchB的运行，则会暂停dispatchA的运行。
+      */
     
     //    参考：http://www.cnblogs.com/sunfrog/p/3305614.html
 }

@@ -34,7 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 
-- (void)viewDidLoad;
 
 // 定义Block的几种方法
 -(void)definedBlock;
