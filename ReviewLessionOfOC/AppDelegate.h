@@ -7,9 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "ReviewStrongVsCopy.h"
+#import "BlockDemo.h"
+#import "Thread.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+- (IBAction)Btn_usualBlock:(NSButton *)sender;
+
+- (IBAction)Btn_SequenceBlock:(NSButton *)sender;
 
 @end
 

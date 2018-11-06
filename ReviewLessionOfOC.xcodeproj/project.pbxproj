@@ -11,6 +11,9 @@
 		DEF373ED218AB16B001CB5C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEF373EC218AB16B001CB5C7 /* Assets.xcassets */; };
 		DEF373F0218AB16B001CB5C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEF373EE218AB16B001CB5C7 /* MainMenu.xib */; };
 		DEF373F3218AB16B001CB5C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF373F2218AB16B001CB5C7 /* main.m */; };
+		DEF373FC218AB1E4001CB5C7 /* ReviewStrongVsCopy.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF373FB218AB1E4001CB5C7 /* ReviewStrongVsCopy.m */; };
+		DEF373FF218ADBAC001CB5C7 /* BlockDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF373FE218ADBAC001CB5C7 /* BlockDemo.m */; };
+		DEF3741F21915D02001CB5C7 /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3741E21915D02001CB5C7 /* Thread.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,12 @@
 		DEF373F1218AB16B001CB5C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEF373F2218AB16B001CB5C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DEF373F4218AB16B001CB5C7 /* ReviewLessionOfOC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReviewLessionOfOC.entitlements; sourceTree = "<group>"; };
+		DEF373FA218AB1E4001CB5C7 /* ReviewStrongVsCopy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewStrongVsCopy.h; sourceTree = "<group>"; };
+		DEF373FB218AB1E4001CB5C7 /* ReviewStrongVsCopy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewStrongVsCopy.m; sourceTree = "<group>"; };
+		DEF373FD218ADBAC001CB5C7 /* BlockDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockDemo.h; sourceTree = "<group>"; };
+		DEF373FE218ADBAC001CB5C7 /* BlockDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockDemo.m; sourceTree = "<group>"; };
+		DEF3741D21915D02001CB5C7 /* Thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		DEF3741E21915D02001CB5C7 /* Thread.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Thread.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +65,12 @@
 			children = (
 				DEF373E9218AB16A001CB5C7 /* AppDelegate.h */,
 				DEF373EA218AB16A001CB5C7 /* AppDelegate.m */,
+				DEF373FA218AB1E4001CB5C7 /* ReviewStrongVsCopy.h */,
+				DEF373FB218AB1E4001CB5C7 /* ReviewStrongVsCopy.m */,
+				DEF373FD218ADBAC001CB5C7 /* BlockDemo.h */,
+				DEF373FE218ADBAC001CB5C7 /* BlockDemo.m */,
+				DEF3741D21915D02001CB5C7 /* Thread.h */,
+				DEF3741E21915D02001CB5C7 /* Thread.m */,
 				DEF373EC218AB16B001CB5C7 /* Assets.xcassets */,
 				DEF373EE218AB16B001CB5C7 /* MainMenu.xib */,
 				DEF373F1218AB16B001CB5C7 /* Info.plist */,
@@ -134,7 +149,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEF373FC218AB1E4001CB5C7 /* ReviewStrongVsCopy.m in Sources */,
 				DEF373F3218AB16B001CB5C7 /* main.m in Sources */,
+				DEF373FF218ADBAC001CB5C7 /* BlockDemo.m in Sources */,
+				DEF3741F21915D02001CB5C7 /* Thread.m in Sources */,
 				DEF373EB218AB16A001CB5C7 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
