@@ -10,19 +10,20 @@
 
 @interface AppDelegate ()
 - (IBAction)Btn_StrongVsCopy:(NSButton *)sender;
+
+
 - (IBAction)Btn_Block:(NSButton *)sender;
 - (IBAction)Btn_BlockDefine:(NSButton *)sender;
 - (IBAction)Btn_BlockAsParamter:(NSButton *)sender;
 - (IBAction)Btn_BlockAsResult:(NSButton *)sender;
 
 
-
-
-
 - (IBAction)Btn_Thread死锁:(NSButton *)sender;
 - (IBAction)Btn_WriteLog:(NSButton *)sender;
 - (IBAction)Btn_DispatchQueueApply:(NSButton *)sender;
 - (IBAction)Btn_DispatchQueueBarrier:(NSButton *)sender;
+
+
 
 
 @property (weak) IBOutlet NSWindow *window;
@@ -45,6 +46,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    
+    NSLog(@"main loop = %@",[NSRunLoop currentRunLoop]);
+    
 }
 
 
@@ -96,8 +100,8 @@
 - (IBAction)Btn_SequenceBlock:(NSButton *)sender { dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self->blockDemo blockSequenceRun];
     });
-
 }
+
 - (IBAction)Btn_WriteLog:(NSButton *)sender {
     [[Thread new] writeLog];
 }

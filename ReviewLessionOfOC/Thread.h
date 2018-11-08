@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)dispatchQueueApply;
 -(void)DownloadFilesWithGCD;
+
++(void)createLoop;
 @end
 
 NS_ASSUME_NONNULL_END

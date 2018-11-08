@@ -18,7 +18,6 @@
     self.strongStr = targetString;
     self.cpStr =targetString;
     
-    
     NSLog(@"targetString:[%@], %p,%p",targetString,targetString,&targetString);
     NSLog(@"strongString:[%@], %p,%p",_strongStr,_strongStr,_strongStr);
     NSLog(@"copyString:[%@], %p,%p",_cpStr,_cpStr,_cpStr);
@@ -70,7 +69,6 @@
     //strongString:[Target.new string], 0x600000255cc0,0x600000255cc0    ---内容改动
     //copyString:[Target.], 0x2e74656772615475,0x2e74656772615475        ---内容不变
 }
-
 
 // 为Copy 功能实现; 属性也要赋值，否则为未初始化状态[nil/0]
 -(id)copyWithZone:(NSZone *)zone
