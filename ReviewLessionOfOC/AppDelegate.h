@@ -12,6 +12,7 @@
 #import "Thread.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
+@property NSString *name;
 
 - (IBAction)Btn_usualBlock:(NSButton *)sender;
 

@@ -9,20 +9,22 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-- (IBAction)Btn_StrongVsCopy:(NSButton *)sender;
+@property (weak) IBOutlet NSTextField *lbl_label1;   //NSTimer调用
+@property (weak) IBOutlet NSTextField *lbl_label2;   //NSTimer调用
 
+- (IBAction)Btn_StrongVsCopy:(NSButton *)sender;
 
 - (IBAction)Btn_Block:(NSButton *)sender;
 - (IBAction)Btn_BlockDefine:(NSButton *)sender;
 - (IBAction)Btn_BlockAsParamter:(NSButton *)sender;
 - (IBAction)Btn_BlockAsResult:(NSButton *)sender;
 
-
 - (IBAction)Btn_Thread死锁:(NSButton *)sender;
 - (IBAction)Btn_WriteLog:(NSButton *)sender;
 - (IBAction)Btn_DispatchQueueApply:(NSButton *)sender;
 - (IBAction)Btn_DispatchQueueBarrier:(NSButton *)sender;
-
+- (IBAction)Btn_NSTimer:(NSButton *)sender;
+- (IBAction)Btn_ThreadRunLoop:(NSButton *)sender;
 
 
 
@@ -32,6 +34,7 @@
 @implementation AppDelegate
 {
    __block BlockDemo *blockDemo;
+    Thread *threadDemo;
 }
 
 
@@ -40,6 +43,7 @@
     self = [super init];
     if (self) {
         blockDemo = [BlockDemo new];
+        threadDemo = [Thread new];
     }
     return self;
 }
@@ -47,8 +51,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     
-    NSLog(@"main loop = %@",[NSRunLoop currentRunLoop]);
-    
+    //NSLog(@"main loop = %@",[NSRunLoop currentRunLoop]);
 }
 
 
@@ -113,4 +116,14 @@
 - (IBAction)Btn_DispatchQueueBarrier:(NSButton *)sender {
     [[Thread new] DownloadFilesWithGCD];
 }
+
+- (IBAction)Btn_NSTimer:(NSButton *)sender {
+    [threadDemo timer:self.lbl_label1 label2:self.lbl_label2];
+}
+
+- (IBAction)Btn_ThreadRunLoop:(NSButton *)sender {
+    [Thread createLoop];
+}
+
+
 @end

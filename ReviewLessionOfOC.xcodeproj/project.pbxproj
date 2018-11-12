@@ -15,6 +15,7 @@
 		DEF373FF218ADBAC001CB5C7 /* BlockDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF373FE218ADBAC001CB5C7 /* BlockDemo.m */; };
 		DEF3741F21915D02001CB5C7 /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3741E21915D02001CB5C7 /* Thread.m */; };
 		DEF3742221917CD6001CB5C7 /* TxtLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3742121917CD6001CB5C7 /* TxtLog.m */; };
+		DEF3743C21952ABB001CB5C7 /* NSTimerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,8 @@
 		DEF3741E21915D02001CB5C7 /* Thread.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Thread.m; sourceTree = "<group>"; };
 		DEF3742021917CD6001CB5C7 /* TxtLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TxtLog.h; sourceTree = "<group>"; };
 		DEF3742121917CD6001CB5C7 /* TxtLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TxtLog.m; sourceTree = "<group>"; };
+		DEF3743A21952ABB001CB5C7 /* NSTimerDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTimerDemo.h; sourceTree = "<group>"; };
+		DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSTimerDemo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,8 @@
 				DEF373FE218ADBAC001CB5C7 /* BlockDemo.m */,
 				DEF3741D21915D02001CB5C7 /* Thread.h */,
 				DEF3741E21915D02001CB5C7 /* Thread.m */,
+				DEF3743A21952ABB001CB5C7 /* NSTimerDemo.h */,
+				DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */,
 				DEF3742021917CD6001CB5C7 /* TxtLog.h */,
 				DEF3742121917CD6001CB5C7 /* TxtLog.m */,
 				DEF373EC218AB16B001CB5C7 /* Assets.xcassets */,
@@ -160,6 +165,7 @@
 				DEF373FF218ADBAC001CB5C7 /* BlockDemo.m in Sources */,
 				DEF3741F21915D02001CB5C7 /* Thread.m in Sources */,
 				DEF373EB218AB16A001CB5C7 /* AppDelegate.m in Sources */,
+				DEF3743C21952ABB001CB5C7 /* NSTimerDemo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

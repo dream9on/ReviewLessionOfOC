@@ -9,6 +9,9 @@
 #import "Thread.h"
 
 @implementation Thread
+{
+    NSTimer *timer1,*timer2;
+}
 
 #pragma mark - 一.NSThread
 
@@ -19,7 +22,7 @@
 1. 初始化线程主方法：
 [NSThread detachNewThreadSelector:@selector(run:) toTarget:target withObject:obj];//类方法
 或
-NSThread *newThread = [[NSThread alloc] initWithTarget:target selector:@selector(run:) object:obj]; //实例方法可以拿到线程对象，便于以后终止线程。
+NSThread *newThread = [[NSThread alloc] initWithTarget:target selector:@selector(run:) object:obj];//实例方法可以拿到线程对象，便于以后终止线程。
 
 2. 定义NSThread的子类MyThread，然后实现main方法（即方法1中的run）。然后创建新对象:
 MyThread *newThread = [[MyThread alloc] init];
@@ -219,17 +222,48 @@ iOS提供多种同步锁的类和方法，这里介绍下基本用法。
 +(void)createLoop
 {
     __block int count = 0;
+    NSPort *port = [NSPort port];
     //1.建立一个一般的线程
     NSThread *thread_1 = [[NSThread alloc] initWithBlock:^{
         NSLog(@"thread_1 run. count = %d.",++count);
-        
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
+
+        NSTimer *timer1 =  [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:2] interval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            NSLog(@"Default count++ = %d。",count++);
+            //[loop addTimer:timer forMode:NSRunLoopCommonModes];
+        }];
         
-        NSLog(@"Thread1.current loop. = %@",loop);
+        [loop addTimer:timer1 forMode:NSDefaultRunLoopMode];
+        [timer1 fire];
         
+        [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+            NSLog(@"common count = %d",count++);
+            [loop addTimer:timer forMode:NSRunLoopCommonModes];
+        }];
+        
+        //Ps:Runloop运行首先判断Mode是否为空，如果为空则退出循环，还可以通过removePort来移除端口。本例用添加port来实现，其他方法请读者自己多尝试。：）
+        if (loop.currentMode != NSDefaultRunLoopMode) {
+            //[loop removePort:port forMode:NSDefaultRunLoopMode];
+            [loop removePort:port forMode:NSRunLoopCommonModes];
+            [loop addPort:port forMode:NSDefaultRunLoopMode];
+            
+        }else{
+            //   通过添加port 或者timer 保持线程存在
+            [loop removePort:port forMode:NSDefaultRunLoopMode];
+            [loop addPort:port forMode:NSRunLoopCommonModes];
+        }
+        
+        [loop run];
     }];
     
+    //2.线程命名
+    [thread_1 setName:@"myThread_1"];
     [thread_1 start];
+    
+    
+    //CFMutableDictionaryRef dict = CFDictionaryCreateMutable(kCFAllocatorSystemDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    
+    
     /*
     2018-11-07 19:08:33.868255+0800 ReviewLessionOfOC[34747:2983936]
      Thread1.current loop. = <CFRunLoop 0x6040001e4f00 [0x7fffa8742af0]>{wakeup port = 0x710f, stopped = false, ignoreWakeUps = true,
@@ -237,8 +271,7 @@ iOS提供多种同步锁的类和方法，这里介绍下基本用法。
         common modes = <CFBasicHash 0x6040002584e0 [0x7fffa8742af0]>{type = mutable set, count = 1,
             entries =>
             2 : <CFString 0x7fffa864d178 [0x7fffa8742af0]>{contents = "kCFRunLoopDefaultMode"}
-        }
-        ,
+        },
         common mode items = (null),
         modes = <CFBasicHash 0x6040004413e0 [0x7fffa8742af0]>{type = mutable set, count = 1,
             entries =>
@@ -249,11 +282,9 @@ iOS提供多种同步锁的类和方法，这里介绍下基本用法。
                 timers = (null),
                 currently 563281714 (193802166931086) / soft deadline in: 1.84465503e+10 sec (@ -1) / hard deadline in: 1.84465503e+10 sec (@ -1)
             },
-            
         }
     }
     */
-    
 }
 
 /*
@@ -329,10 +360,170 @@ A = [[NSThread alloc] initWithTarget:self selector:@selector(runA) object:nil]; 
 
 */
 
+
+/*
+ ⭐️ NSRunLoop 接口
+ //运行 NSRunLoop，运行模式为默认的NSDefaultRunLoopMode模式，没有超时限制
+ - (void)run;
+ //运行 NSRunLoop: 参数为运时间期限，运行模式为默认的NSDefaultRunLoopMode模式
+ - (void)runUntilDate:(NSDate *)limitDate;
+ //运行 NSRunLoop: 参数为运行模式、时间期限，返回值为YES表示是处理事件后返回的，NO表示是超时或者停止运行导致返回的
+ - (BOOL)runMode:(NSString *)mode beforeDate:(NSDate *)limitDate;
+ 
+ ⭐️ CFRunLoopRef的运行接口
+ //运行 CFRunLoopRef
+ void CFRunLoopRun();
+ //运行 CFRunLoopRef: 参数为运行模式、时间和是否在处理Input Source后退出标志，返回值是exit原因
+ SInt32 CFRunLoopRunInMode (mode, seconds, returnAfterSourceHandled);
+ //停止运行 CFRunLoopRef
+ void CFRunLoopStop( CFRunLoopRef rl );
+ //唤醒CFRunLoopRef
+ void CFRunLoopWakeUp ( CFRunLoopRef rl );
+
+ */
+
+
+
+
+
+// 这种方式叫做 source0
+-(void)RunLoopDemo1
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@"线程开始");
+        //获取当前线程
+        self.thread = [NSThread currentThread];
+        NSRunLoop *runloop  = [NSRunLoop currentRunLoop];
+        // 添加一个Port 防止runloop无事件直接退出
+        [runloop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
+        //运行一个runloop [NSDate distantFuture]: 很久后才失效
+        [runloop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        NSLog(@"线程结束");
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2*NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //在开启的异步线程中调用方法
+            [self performSelector:@selector(recieveMsg) onThread:self.thread withObject:nil waitUntilDone:NO];
+        });
+        
+    });
+}
+
+-(void)recieveMsg
+{
+    NSLog(@"收到消息，在这个线程：%@",[NSThread currentThread]);
+}
+
+/*
+/// RunLoop的实现
+int CFRunLoopRunSpecific(runloop, modeName, seconds, stopAfterHandle) {
+    
+    /// 首先根据modeName找到对应mode
+    CFRunLoopModeRef currentMode = __CFRunLoopFindMode(runloop, modeName, false);
+    /// 如果mode里没有source/timer/observer, 直接返回。
+    if (__CFRunLoopModeIsEmpty(currentMode)) return;
+    
+    /// 1. 通知 Observers: RunLoop 即将进入 loop。
+    __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopEntry);
+    
+    /// 内部函数，进入loop
+    __CFRunLoopRun(runloop, currentMode, seconds, returnAfterSourceHandled) {
+        
+        Boolean sourceHandledThisLoop = NO;
+        int retVal = 0;
+        do {
+            
+            /// 2. 通知 Observers: RunLoop 即将触发 Timer 回调。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeTimers);
+            /// 3. 通知 Observers: RunLoop 即将触发 Source0 (非port) 回调。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeSources);
+            /// 执行被加入的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+            
+            /// 4. RunLoop 触发 Source0 (非port) 回调。
+            sourceHandledThisLoop = __CFRunLoopDoSources0(runloop, currentMode, stopAfterHandle);
+            /// 执行被加入的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+            
+            /// 5. 如果有 Source1 (基于port) 处于 ready 状态，直接处理这个 Source1 然后跳转去处理消息。
+            if (__Source0DidDispatchPortLastTime) {
+                Boolean hasMsg = __CFRunLoopServiceMachPort(dispatchPort, &msg)
+                if (hasMsg) goto handle_msg;
+            }
+            
+            /// 6.通知 Observers: RunLoop 的线程即将进入休眠(sleep)。
+            if (!sourceHandledThisLoop) {
+                __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopBeforeWaiting);
+            }
+            
+            /// 7. 调用 mach_msg 等待接受 mach_port 的消息。线程将进入休眠, 直到被下面某一个事件唤醒。
+            /// ? 一个基于 port 的Source 的事件。
+            /// ? 一个 Timer 到时间了
+            /// ? RunLoop 自身的超时时间到了
+            /// ? 被其他什么调用者手动唤醒
+            __CFRunLoopServiceMachPort(waitSet, &msg, sizeof(msg_buffer), &livePort) {
+                mach_msg(msg, MACH_RCV_MSG, port); // thread wait for receive msg
+            }
+            
+            /// 8. 通知 Observers: RunLoop 的线程刚刚被唤醒了。
+            __CFRunLoopDoObservers(runloop, currentMode, kCFRunLoopAfterWaiting);
+            
+            /// 9.收到消息，处理消息。
+        handle_msg:
+            
+            /// 10.1 如果一个 Timer 到时间了，触发这个Timer的回调。
+            if (msg_is_timer) {
+                __CFRunLoopDoTimers(runloop, currentMode, mach_absolute_time())
+            }
+            
+            /// 10.2 如果有dispatch到main_queue的block，执行block。
+            else if (msg_is_dispatch) {
+                __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__(msg);
+            }
+            
+            /// 10.3 如果一个 Source1 (基于port) 发出事件了，处理这个事件
+            else {
+                CFRunLoopSourceRef source1 = __CFRunLoopModeFindSourceForMachPort(runloop, currentMode, livePort);
+                sourceHandledThisLoop = __CFRunLoopDoSource1(runloop, currentMode, source1, msg);
+                if (sourceHandledThisLoop) {
+                    mach_msg(reply, MACH_SEND_MSG, reply);
+                }
+            }
+            
+            /// 执行加入到Loop的block
+            __CFRunLoopDoBlocks(runloop, currentMode);
+            
+            
+            if (sourceHandledThisLoop && stopAfterHandle) {
+                /// 进入loop时参数说处理完事件就返回。
+                retVal = kCFRunLoopRunHandledSource;
+            } else if (timeout) {
+                /// 超出传入参数标记的超时时间了
+                retVal = kCFRunLoopRunTimedOut;
+            } else if (__CFRunLoopIsStopped(runloop)) {
+                /// 被外部调用者强制停止了
+                retVal = kCFRunLoopRunStopped;
+            } else if (__CFRunLoopModeIsEmpty(runloop, currentMode)) {
+                /// source/timer/observer一个都没有了
+                retVal = kCFRunLoopRunFinished;
+            }
+            
+            /// 如果没超时，mode里没空，loop也没被停止，那继续loop。
+        } while (retVal == 0);
+    }
+    
+    /// 11. 通知 Observers: RunLoop 即将退出。
+    __CFRunLoopDoObservers(rl, currentMode, kCFRunLoopExit);
+}
+
+作者：涂耀辉
+链接：https://www.jianshu.com/p/4d5b6fc33519
+來源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+*/
+
 #pragma mark - 四. NSTimer
 /*
 理解run loop后，才能彻底理解NSTimer的实现原理，也就是说NSTimer实际上依赖run loop实现的。
-
 先看看NSTimer的两个常用方法：
 
 + (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo; //生成timer但不执行
@@ -340,9 +531,7 @@ A = [[NSThread alloc] initWithTarget:self selector:@selector(runA) object:nil]; 
 + (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo; //生成timer并且纳入当前线程的run loop来执行
 
 NSRunLoop与timer有关方法为：
-
 - (void)addTimer:(NSTimer *)timer forMode:(NSString *)mode; //在run loop上注册timer
-
 主线程已经有run loop，所以NSTimer一般在主线程上运行都不必再调用addTimer:。但在非主线程上运行必须配置run loop，该线程的main方法示例代码如下：
 
 - (void)main
@@ -359,23 +548,86 @@ NSRunLoop与timer有关方法为：
 实际上这个线程无法退出，因为有timer事件需要处理，[runLoop run]会一直无法返回。解决办法就是设置一个截止时间：
 [runLoop runUntilDate:[NSDate dateWithTimeIntervalSinceNow:10.0]]; //每隔10秒检查下线程循环条件，当然时间值可以根据实际情况来定。
 
-我们通常在主线程中使用NSTimer，有个实际遇到的问题需要注意。当滑动界面时，系统为了更好地处理UI事件和滚动显示，主线程runloop会暂时停止处理一些其它事件，这时主线程中运行的NSTimer就会被暂停。解决办法就是改变NSTimer运行的mode（mode可以看成事件类型），不使用缺省的NSDefaultRunLoopMode，而是改用NSRunLoopCommonModes，这样主线程就会继续处理NSTimer事件了。具体代码如下：
+我们通常在主线程中使用NSTimer，有个实际遇到的问题需要注意。当滑动界面或按住界面控件不放时，系统为了更好地处理UI事件和滚动显示，主线程runloop会暂时停止处理一些其它事件，这时主线程中运行的NSTimer就会被暂停。解决办法就是改变NSTimer运行的mode（mode可以看成事件类型），不使用缺省的NSDefaultRunLoopMode，而是改用NSRunLoopCommonModes，这样主线程就会继续处理NSTimer事件了。具体代码如下：
 
 NSTimer *timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
-
 [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-
 大家可以参看博文http://bluevt.org/?p=209，加深理解NSTimer和NSRunLoop的关系。
 
-
-
 以前博文中提到延迟调用的方法，其实就是在当前线程的run loop上注册timer来实现定时运行的。所以如果是在非主线程上使用，一定要有一个run loop。
-
 - (void)performSelector:(SEL)aSelector withObject:(id)anArgument afterDelay:(NSTimeInterval)delay inModes:(NSArray *)modes;
-
 - (void)performSelector:(SEL)aSelector withObject:(id)anArgument afterDelay:(NSTimeInterval)delay;
-
 */
+
+-(void)timer:(NSTextField *)label label2:(NSTextField *)label2
+{
+    if (timer1.valid) {
+        [timer1 invalidate];
+    }
+
+    if (timer2.valid) {
+        [timer2 invalidate];
+    }
+
+    // 该方法创建的Timer默认添加到当前Runloop，并且模式是kCFRunloopDefaultMode。当UI主界面有操控动作时,runloop为了更好的处理UI事件,主线程runloop会暂停其他NSTimer.
+    timer1 =  [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        label.intValue = label.intValue+1;
+
+        // 解决办法：将NSTimer添加到占位模式
+         [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    }];
+
+    __block int count =0;
+    timer2= [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        label2.stringValue = [NSString stringWithFormat:@"EventRacking: %d",count++];
+
+        // 将NSTimer添加到事件追踪模式  --不与UI同一模式
+       // [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSEventTrackingRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer:timer forMode:@"CustomerRunLoopMode"];
+    }];
+}
+
+
+// GCD 定时器
+ /*GCD定时器的优点有很多，首先不受Mode的影响，而NSTimer受Mode影响时常不能正常工作，除此之外GCD的精确度明显高于NSTimer，这些优点让我们有必要了解GCD定时器这种方法。
+  1.1.2.2  CFRunloopSourceRef  事件源(输入源)
+  　　按照苹果官方文档,Source分类
+  　　Port-Based  Sources  基于端口的  和其他线程 或者内核
+  　　Custom Input  Sources
+  　　Cocoa   Perform   Selector  Sources
+  
+  　　按照函数调用栈来分类
+  　　Source0 :   非基于Port的
+  　　Source1:   基于port的，通过内核 和其他线程通信，接收、分发事件。
+  
+  1.1.2.3  CFRunloopObservorRef  观察者监听runloop状态改变
+  
+   // Run Loop Observer Activities
+   typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
+        kCFRunLoopEntry = (1UL << 0),
+        kCFRunLoopBeforeTimers = (1UL << 1),
+        kCFRunLoopBeforeSources = (1UL << 2),
+        kCFRunLoopBeforeWaiting = (1UL << 5),
+        kCFRunLoopAfterWaiting = (1UL << 6),
+        kCFRunLoopExit = (1UL << 7),
+        kCFRunLoopAllActivities = 0x0FFFFFFFU
+    };
+  */
+
+
+-(void)CFRunLoopDemo
+{
+    // 创建observer
+    CFRunLoopObserverRef observer = CFRunLoopObserverCreateWithHandler(CFAllocatorGetDefault(), kCFRunLoopAllActivities, YES, 0, ^(CFRunLoopObserverRef observer, CFRunLoopActivity activity) {
+    NSLog(@"----监听到RunLoop状态发生改变---%zd", activity);
+    });
+
+    // 添加观察者：监听RunLoop的状态
+    CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopDefaultMode);
+    
+    //CFRunLoopAddObserver(CFRunLoopGetCurrent(), observer, kCFRunLoopCommonModes);
+}
+
 
 
 
@@ -483,19 +735,12 @@ NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegat
  }];
  
  - (void)operate
- 
  {
- 
  　　//thread loop
- 
  　　while (condition)
- 
  　　{
- 
  　　　　//....
- 
  　　}
- 
  }
  
  NSOperationQueue *queue = [[NSOperationQueuealloc] init];
@@ -1269,5 +1514,31 @@ dispatch_time_t getDispatchTimeByDate(NSDate *date)
  
  });
  */
+
+
+
+
+/*
+ 自我介绍
+ 首先很荣欣
+ good afternoon,ladies and gentlement! It's really my honor to have this opportunity for an interview.
+ I hope i can make a good performace today.
+ Now i will intriduce myself briefly.
+ I am 33 years old, born in Anhui province. I graduated from
+ 
+ 我毕业于2007年，芜湖教育学院，2013年又自考了北京语言大学（Beijing language and culture university）,取得本科学历及学士学位.
+ 从2007年到现在已经工作了11年. 先后在4家公司做过.
+ 第一家公司是芜湖安联，职务是程序员，主要负责软件的调试工作. 这家公司我做了一年.
+   一年后 加入到第二家公司 台达电子 Delta. 在台达我做了7年 从2008年到2014年底.主要从事MES / OA的开发工作。  岗位是软件工程师，后来升为开发课长.
+ 用的开发语言是 C#,Asp.Net + SQL2018
+   2015年我加入第三家公司 迈致科技MYZY.主要做Mac的程序开发.公司主要做Apple的iPhone & watch的ICT FCT fixture. So测试软件主要是跟电子相关.
+ 用到的语言主要是Objective-C and C 通讯协议主要是 SerialPort +Socket +I2C + SPI 等等.
+   9月份离职加入 上海德岂智能（B&P） 但目前没有项目在做.
+   因为以前的工作中基本上都不用英文，所以我的英文不是很好；我希望能加入外企，在工作中能更快更好的提升我的英文水平.HCL在行业中是个非常不错的攻击公司，我可以在这样的工作环境中收获更多。
+ 这是我来这里面试的原因。我觉得我是一位具有良好的团队精神.诚恳的人.
+  That is the reason why I come here to compete for this position. I am able to work under great pressure. I am confident that I am qualified for the post of devolopment leader in your company. that's all.thank you for listen.
+ 
+ */
+
 
 @end
