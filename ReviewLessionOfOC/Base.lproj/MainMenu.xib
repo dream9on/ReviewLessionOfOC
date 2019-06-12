@@ -685,14 +685,14 @@
         <window title="ReviewLessionOfOC" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="616" height="360"/>
+            <rect key="contentRect" x="335" y="390" width="616" height="518"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="616" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="616" height="518"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcM-wR-UQX">
-                        <rect key="frame" x="14" y="312" width="129" height="32"/>
+                        <rect key="frame" x="14" y="470" width="129" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Strong &amp; Copy" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="MrD-1v-wFf">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -703,7 +703,7 @@
                         </connections>
                     </button>
                     <box fixedFrame="YES" title="Block" translatesAutoresizingMaskIntoConstraints="NO" id="kDD-YA-sgQ">
-                        <rect key="frame" x="17" y="74" width="177" height="234"/>
+                        <rect key="frame" x="17" y="232" width="177" height="234"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="eMl-BR-EKr">
                             <rect key="frame" x="2" y="2" width="173" height="217"/>
@@ -779,7 +779,7 @@
                         </view>
                     </box>
                     <box fixedFrame="YES" title="Thread: GCD &amp; NSOperater" translatesAutoresizingMaskIntoConstraints="NO" id="Mbc-50-Ifw">
-                        <rect key="frame" x="215" y="74" width="360" height="234"/>
+                        <rect key="frame" x="215" y="232" width="360" height="234"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="9BO-lE-NBk">
                             <rect key="frame" x="2" y="2" width="356" height="217"/>
@@ -881,13 +881,46 @@
                         </view>
                     </box>
                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x1E-51-7Lv">
-                        <rect key="frame" x="410" y="323" width="148" height="19"/>
+                        <rect key="frame" x="410" y="481" width="148" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="wpG-1m-sWg"/>
                     </slider>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IYX-IN-ZdR">
+                        <rect key="frame" x="14" y="171" width="183" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="KVO Demo" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Unj-Ob-gnn">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="Btn_KvoDemo:" target="Voe-Tx-rLC" id="S8S-QH-p69"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mgh-T2-dc3">
+                        <rect key="frame" x="14" y="124" width="183" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Notification" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ACL-ob-hhz">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="Btn_Notification:" target="Voe-Tx-rLC" id="QL4-Wj-2q9"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vkv-7h-KsE">
+                        <rect key="frame" x="14" y="91" width="183" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="User Notification" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CET-U6-qIL">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="Btn_UserNotification:" target="Voe-Tx-rLC" id="07g-RE-iMw"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-355" y="-38"/>
+            <point key="canvasLocation" x="-707" y="107"/>
         </window>
     </objects>
 </document>

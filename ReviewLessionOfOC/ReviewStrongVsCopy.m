@@ -20,7 +20,7 @@
     
     NSLog(@"targetString:[%@], %p,%p",targetString,targetString,&targetString);
     NSLog(@"strongString:[%@], %p,%p",_strongStr,_strongStr,_strongStr);
-    NSLog(@"copyString:[%@], %p,%p",_cpStr,_cpStr,_cpStr);
+    NSLog(@"copyString:[%@]  , %p,%p",_cpStr, _cpStr, _cpStr);
     
     //targetString:[Target.], 0x100002070,0x7ffeefbfe618
     //strongString:[Target.], 0x100002070,0x100002070
@@ -33,7 +33,7 @@
     targetString = @"new target.";
     NSLog(@"targetString:[%@], %p,%p",targetString,targetString,&targetString);
     NSLog(@"strongString:[%@], %p,%p",_strongStr,_strongStr,_strongStr);
-    NSLog(@"copyString:[%@], %p,%p",_cpStr,_cpStr,_cpStr);
+    NSLog(@"copyString:[%@]  , %p,%p",_cpStr,_cpStr,_cpStr);
     //targetString:[new target.], 0x1000020f0,0x7ffeefbfe618
     //strongString:[Target.], 0x100002070,0x100002070
     //copyString:[Target.], 0x100002070,0x100002070

@@ -44,13 +44,41 @@
     if (self) {
         blockDemo = [BlockDemo new];
         threadDemo = [Thread new];
+        
+        strArr[29] = @"xxx";
     }
     return self;
 }
 
+
+-(void)text
+{
+    NSArray *pixMap  = [NSArray arrayWithObjects:
+                        @3,@6,@9,@12,@15,@18,@21,@24,
+                        @2,@5,@8,@11,@14,@17,@20,@23,
+                        @1,@4,@7,@10,@13,@16,@19,@22,
+                        nil];
+    
+    int result[22]={0x00};
+    // local-id local-map
+    for (int index =0;index<pixMap.count;index++) {
+        int shipid = [[pixMap objectAtIndex:index] intValue];
+        strArr[shipid-1] = [NSString stringWithFormat:@"%d",shipid];
+    }
+    
+    //NSLog(@"strArr = %p,",strArr);
+}
+
+-(void)awakeFromNib
+{
+    NSLog(@"awakeFromNib");
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    [self text];
     
+    [[SscanfDemo new] test];
     //NSLog(@"main loop = %@",[NSRunLoop currentRunLoop]);
 }
 
@@ -105,6 +133,31 @@
     });
 }
 
+- (IBAction)Btn_KvoDemo:(NSButton *)sender {
+    kvcoDemo = [[KvcKvoDemo alloc] init];
+    [kvcoDemo kvcDemo];
+    
+    [kvcoDemo kvoDemo];
+    [kvcoDemo changeP1Name:@"jack" Bank:@"Chinese"];
+    [kvcoDemo changeP1Name:@"Rose" Bank:@"English"];
+    
+    
+    [kvcoDemo createNotification];
+    
+}
+
+- (IBAction)Btn_UserNotification:(NSButton *)sender {
+    //[[[NotificationDemo alloc] init] sendNotice0];
+    
+    [self postUserNotification];
+    
+}
+
+- (IBAction)Btn_Notification:(NSButton *)sender {
+    
+    [[NotificationDemo new] sendNotice1];
+}
+
 - (IBAction)Btn_WriteLog:(NSButton *)sender {
     [[Thread new] writeLog];
 }
@@ -123,6 +176,31 @@
 
 - (IBAction)Btn_ThreadRunLoop:(NSButton *)sender {
     [Thread createLoop];
+}
+
+
+
+
+
+
+
+
+
+-(void)postUserNotification
+{
+    //设置通知的代理
+    [[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
+    NSUserNotification *localNotify = [[NSUserNotification alloc] init];
+    
+    localNotify.title = @"title";//标题
+    localNotify.subtitle = @"subtitle";//副标题
+    
+    localNotify.contentImage = [NSImage imageNamed: @"image1.jpeg"];//显示在弹窗右边的提示。
+    
+    localNotify.informativeText = @"body message";
+    localNotify.soundName = NSUserNotificationDefaultSoundName;
+    
+    [[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:localNotify];
 }
 
 

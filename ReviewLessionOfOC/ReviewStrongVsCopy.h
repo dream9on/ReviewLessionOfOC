@@ -35,6 +35,15 @@
 
 #import <Foundation/Foundation.h>
 
+
+#if DEBUG
+#warning NSLog will be shown
+#else
+#define NSLog(...) {}
+#endif
+
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ReviewStrongVsCopy : NSObject

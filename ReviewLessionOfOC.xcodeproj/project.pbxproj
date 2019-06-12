@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE9E7B5D219A9B7C0048136A /* NSString+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7B5C219A9B7C0048136A /* NSString+Category.m */; };
+		DE9E7B65219C64000048136A /* ReviewLessionOfOCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7B64219C64000048136A /* ReviewLessionOfOCTests.m */; };
+		DE9E7B6E219D6DB50048136A /* KvcKvoDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7B6D219D6DB50048136A /* KvcKvoDemo.m */; };
+		DE9E7B71219D709A0048136A /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7B70219D709A0048136A /* Person.m */; };
+		DE9E7BED21A4FD380048136A /* SscanfDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7BEC21A4FD380048136A /* SscanfDemo.m */; };
+		DE9E7BF021A653D90048136A /* NotificationDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E7BEF21A653D90048136A /* NotificationDemo.m */; };
 		DEF373EB218AB16A001CB5C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF373EA218AB16A001CB5C7 /* AppDelegate.m */; };
 		DEF373ED218AB16B001CB5C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEF373EC218AB16B001CB5C7 /* Assets.xcassets */; };
 		DEF373F0218AB16B001CB5C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEF373EE218AB16B001CB5C7 /* MainMenu.xib */; };
@@ -16,9 +22,33 @@
 		DEF3741F21915D02001CB5C7 /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3741E21915D02001CB5C7 /* Thread.m */; };
 		DEF3742221917CD6001CB5C7 /* TxtLog.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3742121917CD6001CB5C7 /* TxtLog.m */; };
 		DEF3743C21952ABB001CB5C7 /* NSTimerDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */; };
+		DEFE622521A78F2B0092260D /* image1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DEFE622421A78F2A0092260D /* image1.jpeg */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DE9E7B67219C64000048136A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEF373DE218AB16A001CB5C7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEF373E5218AB16A001CB5C7;
+			remoteInfo = ReviewLessionOfOC;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		DE9E7B5B219A9B7C0048136A /* NSString+Category.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Category.h"; sourceTree = "<group>"; };
+		DE9E7B5C219A9B7C0048136A /* NSString+Category.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Category.m"; sourceTree = "<group>"; };
+		DE9E7B62219C64000048136A /* ReviewLessionOfOCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReviewLessionOfOCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE9E7B64219C64000048136A /* ReviewLessionOfOCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewLessionOfOCTests.m; sourceTree = "<group>"; };
+		DE9E7B66219C64000048136A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE9E7B6C219D6DB50048136A /* KvcKvoDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KvcKvoDemo.h; sourceTree = "<group>"; };
+		DE9E7B6D219D6DB50048136A /* KvcKvoDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KvcKvoDemo.m; sourceTree = "<group>"; };
+		DE9E7B6F219D709A0048136A /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		DE9E7B70219D709A0048136A /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		DE9E7BEB21A4FD380048136A /* SscanfDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SscanfDemo.h; sourceTree = "<group>"; };
+		DE9E7BEC21A4FD380048136A /* SscanfDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SscanfDemo.m; sourceTree = "<group>"; };
+		DE9E7BEE21A653D90048136A /* NotificationDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationDemo.h; sourceTree = "<group>"; };
+		DE9E7BEF21A653D90048136A /* NotificationDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationDemo.m; sourceTree = "<group>"; };
 		DEF373E6218AB16A001CB5C7 /* ReviewLessionOfOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReviewLessionOfOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEF373E9218AB16A001CB5C7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DEF373EA218AB16A001CB5C7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -37,9 +67,17 @@
 		DEF3742121917CD6001CB5C7 /* TxtLog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TxtLog.m; sourceTree = "<group>"; };
 		DEF3743A21952ABB001CB5C7 /* NSTimerDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTimerDemo.h; sourceTree = "<group>"; };
 		DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSTimerDemo.m; sourceTree = "<group>"; };
+		DEFE622421A78F2A0092260D /* image1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image1.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DE9E7B5F219C64000048136A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEF373E3218AB16A001CB5C7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,10 +88,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE9E7B63219C64000048136A /* ReviewLessionOfOCTests */ = {
+			isa = PBXGroup;
+			children = (
+				DE9E7B64219C64000048136A /* ReviewLessionOfOCTests.m */,
+				DE9E7B66219C64000048136A /* Info.plist */,
+			);
+			path = ReviewLessionOfOCTests;
+			sourceTree = "<group>";
+		};
 		DEF373DD218AB16A001CB5C7 = {
 			isa = PBXGroup;
 			children = (
 				DEF373E8218AB16A001CB5C7 /* ReviewLessionOfOC */,
+				DE9E7B63219C64000048136A /* ReviewLessionOfOCTests */,
 				DEF373E7218AB16A001CB5C7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				DEF373E6218AB16A001CB5C7 /* ReviewLessionOfOC.app */,
+				DE9E7B62219C64000048136A /* ReviewLessionOfOCTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -69,6 +118,9 @@
 		DEF373E8218AB16A001CB5C7 /* ReviewLessionOfOC */ = {
 			isa = PBXGroup;
 			children = (
+				DEFE622421A78F2A0092260D /* image1.jpeg */,
+				DE9E7BEB21A4FD380048136A /* SscanfDemo.h */,
+				DE9E7BEC21A4FD380048136A /* SscanfDemo.m */,
 				DEF373E9218AB16A001CB5C7 /* AppDelegate.h */,
 				DEF373EA218AB16A001CB5C7 /* AppDelegate.m */,
 				DEF373FA218AB1E4001CB5C7 /* ReviewStrongVsCopy.h */,
@@ -81,6 +133,14 @@
 				DEF3743B21952ABB001CB5C7 /* NSTimerDemo.m */,
 				DEF3742021917CD6001CB5C7 /* TxtLog.h */,
 				DEF3742121917CD6001CB5C7 /* TxtLog.m */,
+				DE9E7B6F219D709A0048136A /* Person.h */,
+				DE9E7B70219D709A0048136A /* Person.m */,
+				DE9E7B6C219D6DB50048136A /* KvcKvoDemo.h */,
+				DE9E7B6D219D6DB50048136A /* KvcKvoDemo.m */,
+				DE9E7BEE21A653D90048136A /* NotificationDemo.h */,
+				DE9E7BEF21A653D90048136A /* NotificationDemo.m */,
+				DE9E7B5B219A9B7C0048136A /* NSString+Category.h */,
+				DE9E7B5C219A9B7C0048136A /* NSString+Category.m */,
 				DEF373EC218AB16B001CB5C7 /* Assets.xcassets */,
 				DEF373EE218AB16B001CB5C7 /* MainMenu.xib */,
 				DEF373F1218AB16B001CB5C7 /* Info.plist */,
@@ -93,6 +153,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DE9E7B61219C64000048136A /* ReviewLessionOfOCTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE9E7B69219C64000048136A /* Build configuration list for PBXNativeTarget "ReviewLessionOfOCTests" */;
+			buildPhases = (
+				DE9E7B5E219C64000048136A /* Sources */,
+				DE9E7B5F219C64000048136A /* Frameworks */,
+				DE9E7B60219C64000048136A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DE9E7B68219C64000048136A /* PBXTargetDependency */,
+			);
+			name = ReviewLessionOfOCTests;
+			productName = ReviewLessionOfOCTests;
+			productReference = DE9E7B62219C64000048136A /* ReviewLessionOfOCTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		DEF373E5218AB16A001CB5C7 /* ReviewLessionOfOC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DEF373F7218AB16B001CB5C7 /* Build configuration list for PBXNativeTarget "ReviewLessionOfOC" */;
@@ -119,6 +197,10 @@
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = "Dylan Xiao";
 				TargetAttributes = {
+					DE9E7B61219C64000048136A = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = DEF373E5218AB16A001CB5C7;
+					};
 					DEF373E5218AB16A001CB5C7 = {
 						CreatedOnToolsVersion = 10.0;
 					};
@@ -138,16 +220,25 @@
 			projectRoot = "";
 			targets = (
 				DEF373E5218AB16A001CB5C7 /* ReviewLessionOfOC */,
+				DE9E7B61219C64000048136A /* ReviewLessionOfOCTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DE9E7B60219C64000048136A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEF373E4218AB16A001CB5C7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DEF373ED218AB16B001CB5C7 /* Assets.xcassets in Resources */,
+				DEFE622521A78F2B0092260D /* image1.jpeg in Resources */,
 				DEF373F0218AB16B001CB5C7 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,21 +246,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DE9E7B5E219C64000048136A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE9E7B65219C64000048136A /* ReviewLessionOfOCTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DEF373E2218AB16A001CB5C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				DEF373FC218AB1E4001CB5C7 /* ReviewStrongVsCopy.m in Sources */,
+				DE9E7B6E219D6DB50048136A /* KvcKvoDemo.m in Sources */,
+				DE9E7B71219D709A0048136A /* Person.m in Sources */,
 				DEF3742221917CD6001CB5C7 /* TxtLog.m in Sources */,
 				DEF373F3218AB16B001CB5C7 /* main.m in Sources */,
 				DEF373FF218ADBAC001CB5C7 /* BlockDemo.m in Sources */,
 				DEF3741F21915D02001CB5C7 /* Thread.m in Sources */,
 				DEF373EB218AB16A001CB5C7 /* AppDelegate.m in Sources */,
+				DE9E7BED21A4FD380048136A /* SscanfDemo.m in Sources */,
+				DE9E7BF021A653D90048136A /* NotificationDemo.m in Sources */,
 				DEF3743C21952ABB001CB5C7 /* NSTimerDemo.m in Sources */,
+				DE9E7B5D219A9B7C0048136A /* NSString+Category.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DE9E7B68219C64000048136A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEF373E5218AB16A001CB5C7 /* ReviewLessionOfOC */;
+			targetProxy = DE9E7B67219C64000048136A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DEF373EE218AB16B001CB5C7 /* MainMenu.xib */ = {
@@ -183,6 +295,42 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		DE9E7B6A219C64000048136A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReviewLessionOfOCTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BP.ReviewLessionOfOCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReviewLessionOfOC.app/Contents/MacOS/ReviewLessionOfOC";
+			};
+			name = Debug;
+		};
+		DE9E7B6B219C64000048136A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ReviewLessionOfOCTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BP.ReviewLessionOfOCTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReviewLessionOfOC.app/Contents/MacOS/ReviewLessionOfOC";
+			};
+			name = Release;
+		};
 		DEF373F5218AB16B001CB5C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -331,6 +479,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DE9E7B69219C64000048136A /* Build configuration list for PBXNativeTarget "ReviewLessionOfOCTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE9E7B6A219C64000048136A /* Debug */,
+				DE9E7B6B219C64000048136A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DEF373E1218AB16A001CB5C7 /* Build configuration list for PBXProject "ReviewLessionOfOC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
